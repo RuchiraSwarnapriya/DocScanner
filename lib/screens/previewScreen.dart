@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:image_to_pdf/screens/readerScreen.dart';
 import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
 
 class PreviewImageScreen extends StatefulWidget {
   final String pdfPath;
+  final String imageRoute;
 
-  PreviewImageScreen(this.pdfPath);
+  PreviewImageScreen(this.pdfPath, this.imageRoute);
 
   @override
   _PreviewImageScreenState createState() => _PreviewImageScreenState();
@@ -34,7 +36,14 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                 icon: Icon(Icons.description),
                 iconSize: 25,
                 color: Colors.blue,
-                onPressed: () {}),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ReaderScreen(imageRoute: widget.imageRoute),
+                      ));
+                }),
           ),
           Positioned(
             bottom: 1,

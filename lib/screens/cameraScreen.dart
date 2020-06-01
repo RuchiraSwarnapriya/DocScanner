@@ -18,8 +18,7 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State {
   CameraController controller;
-  
-  
+
   @override
   void initState() {
     List cameras;
@@ -126,19 +125,19 @@ class _CameraScreenState extends State {
 
   void _onCapturePressed(context) async {
     try {
-      final path = join(
+      final imgPath = join(
         (await getTemporaryDirectory()).path,
         '${DateTime.now()}.png',
       );
-      print(path);
-      await controller.takePicture(path);
+      print(imgPath);
+      await controller.takePicture(imgPath);
 
       // Create a new PDF document
       final pw.Document pdf = new pw.Document();
 
       // Create pdf image from the captured image and add it as a page to the pdf document
       final image =
-          PdfImage.file(pdf.document, bytes: File(path).readAsBytesSync());
+          PdfImage.file(pdf.document, bytes: File(imgPath).readAsBytesSync());
       pdf.addPage(pw.Page(build: (pw.Context context) {
         return pw.Container(
           decoration: pw.BoxDecoration(color: PdfColor.fromHex('#ADD8E6')),
@@ -162,7 +161,7 @@ class _CameraScreenState extends State {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => PreviewImageScreen(pdfPath),
+          builder: (context) => PreviewImageScreen(pdfPath, imgPath),
         ),
       );
     } catch (e) {
