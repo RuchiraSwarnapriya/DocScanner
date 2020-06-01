@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
+import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
 
 class PreviewImageScreen extends StatefulWidget {
   final String pdfPath;
@@ -15,16 +15,46 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
   Widget build(BuildContext context) {
     // User pdfViewer to preview the generated pdf by giving the pdf link
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Preview'),
+        backgroundColor: Colors.lightBlue,
+      ),
       body: Stack(
         children: <Widget>[
-          Positioned(
-              child: PDFViewerScaffold(
-            appBar: AppBar(
-              title: Text('Preview'),
-              backgroundColor: Colors.lightBlue,
+          Padding(
+            padding: EdgeInsets.only(bottom: 50.0),
+            child: PdfViewer(
+              filePath: widget.pdfPath,
             ),
-            path: widget.pdfPath,
-          )),
+          ),
+          Positioned(
+            bottom: 1,
+            left: 50,
+            child: IconButton(
+                icon: Icon(Icons.description),
+                iconSize: 25,
+                color: Colors.blue,
+                onPressed: () {}),
+          ),
+          Positioned(
+            bottom: 1,
+            left: 100,
+            right: 100,
+            child: IconButton(
+                icon: Icon(Icons.save_alt),
+                iconSize: 25,
+                color: Colors.blue,
+                onPressed: () {}),
+          ),
+          Positioned(
+            bottom: 1,
+            right: 50,
+            child: IconButton(
+                icon: Icon(Icons.share),
+                iconSize: 25,
+                color: Colors.blue,
+                onPressed: () {}),
+          ),
         ],
       ),
     );
