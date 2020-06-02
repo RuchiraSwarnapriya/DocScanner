@@ -15,12 +15,18 @@ class _ReaderScreenState extends State<ReaderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Preview'),
+        backgroundColor: Colors.lightBlue,
+      ),
       body: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Expanded(
-                flex: 2,
+            Container(
+                margin: const EdgeInsets.all(40.0),
+                width: 300,
+                height: 300,
                 child: Image.file(File(widget.imageRoute), fit: BoxFit.cover)),
             SizedBox(height: 10.0),
             // Flexible(

@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_to_pdf/screens/readerScreen.dart';
+import 'package:path/path.dart';
 import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
+import 'dart:typed_data';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class PreviewImageScreen extends StatefulWidget {
   final String pdfPath;
@@ -33,7 +38,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
             bottom: 1,
             left: 50,
             child: IconButton(
-                icon: Icon(Icons.description),
+                icon: Icon(Icons.chrome_reader_mode),
                 iconSize: 25,
                 color: Colors.blue,
                 onPressed: () {
@@ -62,10 +67,20 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                 icon: Icon(Icons.share),
                 iconSize: 25,
                 color: Colors.blue,
-                onPressed: () {}),
+                onPressed: () {
+                  getBytesFromFile().then((bytes) {
+                      Share.file('Share via:', basename(widget.pdfPath),
+                          bytes.buffer.asUint8List(), 'image/png');
+                    });
+                }),
           ),
         ],
       ),
     );
+  }
+
+  Future<ByteData> getBytesFromFile() async {
+    Uint8List bytes = File(widget.pdfPath).readAsBytesSync();
+    return ByteData.view(bytes.buffer);
   }
 }
