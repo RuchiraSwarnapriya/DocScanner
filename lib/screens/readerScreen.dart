@@ -42,7 +42,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Preview'),
+        title: Text('Read Document'),
         backgroundColor: Colors.lightBlue,
       ),
       body: Container(
@@ -51,19 +51,25 @@ class _ReaderScreenState extends State<ReaderScreen> {
           children: <Widget>[
             Flexible(
               child: Container(
-                  margin: const EdgeInsets.only(
-                      top: 20.0, left: 40.0, right: 40.0, bottom: 20.0),
-                  child:
-                      Image.file(File(widget.imageRoute), fit: BoxFit.cover)),
+                height: 300,
+                  child: SingleChildScrollView(
+                      child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20.0, left: 40.0, right: 40.0, bottom: 20.0),
+                          child: Image.file(File(widget.imageRoute),
+                              fit: BoxFit.cover)))),
+            ),
+            SizedBox(
+              height: 10,
             ),
             Center(
               child: FlatButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Colors.lightBlue)),
-                color: Colors.lightBlue,
+                    side: BorderSide(color: Colors.blue)),
+                color: Colors.blue,
                 textColor: Colors.white,
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(10.0),
                 onPressed: () async {
                   pickImage();
                 },
