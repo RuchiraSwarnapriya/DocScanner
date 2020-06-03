@@ -11,5 +11,11 @@ To Run this app
 
   - clone the project
   - run "flutter pacakges get"
-  - Run the project
+  - Build & Run the project
+  
+Flutter version -  1.12.13
+
+
+
+
 
