@@ -14,14 +14,10 @@ class ReaderScreen extends StatefulWidget {
 
 class _ReaderScreenState extends State<ReaderScreen> {
   var text = '';
-  bool imageLoaded = false;
-
+  
   Future pickImage() async {
-    setState(() {
-      imageLoaded = true;
-    });
-    FirebaseVisionImage visionImage =
-        FirebaseVisionImage.fromFilePath(widget.imageRoute);
+  
+    FirebaseVisionImage visionImage = FirebaseVisionImage.fromFilePath(widget.imageRoute);
     TextRecognizer textRecognizer = FirebaseVision.instance.textRecognizer();
     VisionText visionText = await textRecognizer.processImage(visionImage);
 
@@ -52,12 +48,15 @@ class _ReaderScreenState extends State<ReaderScreen> {
             Flexible(
               child: Container(
                 height: 300,
-                  child: SingleChildScrollView(
-                      child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 20.0, left: 40.0, right: 40.0, bottom: 20.0),
-                          child: Image.file(File(widget.imageRoute),
-                              fit: BoxFit.cover)))),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 20.0, left: 40.0, right: 40.0, bottom: 20.0),
+                    child:
+                        Image.file(File(widget.imageRoute), fit: BoxFit.cover),
+                  ),
+                ),
+              ),
             ),
             SizedBox(
               height: 10,

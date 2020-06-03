@@ -33,14 +33,15 @@ class _HomePageState extends State<HomePage> {
                 shape: CircleBorder(),
               ),
               child: IconButton(
-                  icon: Icon(Icons.camera_alt),
-                  color: Colors.white,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CameraScreen()),
-                    );
-                  }),
+                icon: Icon(Icons.camera_alt),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CameraScreen()),
+                  );
+                },
+              ),
             ),
           ),
         ],

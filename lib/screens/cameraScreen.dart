@@ -49,15 +49,17 @@ class _CameraScreenState extends State {
 
     controller = CameraController(cameraDescription, ResolutionPreset.high);
 
-    controller.addListener(() {
-      if (mounted) {
-        setState(() {});
-      }
+    controller.addListener(
+      () {
+        if (mounted) {
+          setState(() {});
+        }
 
-      if (controller.value.hasError) {
-        print('Camera error ${controller.value.errorDescription}');
-      }
-    });
+        if (controller.value.hasError) {
+          print('Camera error ${controller.value.errorDescription}');
+        }
+      },
+    );
 
     try {
       await controller.initialize();
@@ -76,35 +78,36 @@ class _CameraScreenState extends State {
       body: Stack(
         children: <Widget>[
           Positioned(
-              child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: _cameraPreviewWidget(),
-                ),
-              ],
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: _cameraPreviewWidget(),
+                  ),
+                ],
+              ),
             ),
-          )),
+          ),
           Positioned(
             bottom: 30,
             left: 50,
             right: 50,
             child: IconButton(
-                icon: Icon(Icons.camera_alt),
-                iconSize: 40,
-                color: Colors.white,
-                onPressed: () {
-                  _onCapturePressed(context);
-                }),
+              icon: Icon(Icons.camera_alt),
+              iconSize: 40,
+              color: Colors.white,
+              onPressed: () {
+                _onCapturePressed(context);
+              },
+            ),
           ),
         ],
       ),
     );
   }
 
-  // Display Camera preview.
   Widget _cameraPreviewWidget() {
     if (controller == null || !controller.value.isInitialized) {
       return const Text(
@@ -132,24 +135,24 @@ class _CameraScreenState extends State {
       print(imgPath);
       await controller.takePicture(imgPath);
 
-      // Create a new PDF document
       final pw.Document pdf = new pw.Document();
 
-      // Create pdf image from the captured image and add it as a page to the pdf document
       final image =
           PdfImage.file(pdf.document, bytes: File(imgPath).readAsBytesSync());
-      pdf.addPage(pw.Page(build: (pw.Context context) {
-        return pw.Container(
-          decoration: pw.BoxDecoration(color: PdfColor.fromHex('#ADD8E6')),
-          // Do the decoration as needed
-          padding: pw.EdgeInsets.all(10),
-          child: pw.Center(
-            child: pw.Image(image, fit: pw.BoxFit.fill),
-          ),
-        );
-      }));
+      pdf.addPage(
+        pw.Page(
+          build: (pw.Context context) {
+            return pw.Container(
+              decoration: pw.BoxDecoration(color: PdfColor.fromHex('#ADD8E6')),
+              padding: pw.EdgeInsets.all(10),
+              child: pw.Center(
+                child: pw.Image(image, fit: pw.BoxFit.fill),
+              ),
+            );
+          },
+        ),
+      );
 
-      // Creating a temp file and save the pdf to that path
       final pdfPath = join(
         (await getTemporaryDirectory()).path,
         '${DateTime.now()}.pdf',

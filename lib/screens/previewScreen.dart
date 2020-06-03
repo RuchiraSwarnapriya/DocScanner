@@ -20,7 +20,6 @@ class PreviewImageScreen extends StatefulWidget {
 class _PreviewImageScreenState extends State<PreviewImageScreen> {
   @override
   Widget build(BuildContext context) {
-    // User pdfViewer to preview the generated pdf by giving the pdf link
     return Scaffold(
       appBar: AppBar(
         title: Text('Preview'),
@@ -40,11 +39,12 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
             child: FlatButton(
               onPressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ReaderScreen(imageRoute: widget.imageRoute),
-                    ));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ReaderScreen(imageRoute: widget.imageRoute),
+                  ),
+                );
               },
               padding: EdgeInsets.all(5.0),
               child: Column(
@@ -70,10 +70,12 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
             right: 50,
             child: FlatButton(
               onPressed: () {
-                getBytesFromFile().then((bytes) {
-                  Share.file('Share via:', basename(widget.pdfPath),
-                      bytes.buffer.asUint8List(), 'image/png');
-                });
+                getBytesFromFile().then(
+                  (bytes) {
+                    Share.file('Share via:', basename(widget.pdfPath),
+                        bytes.buffer.asUint8List(), 'image/png');
+                  },
+                );
               },
               padding: EdgeInsets.all(5.0),
               child: Column(
