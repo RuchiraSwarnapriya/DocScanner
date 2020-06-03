@@ -14,10 +14,10 @@ class ReaderScreen extends StatefulWidget {
 
 class _ReaderScreenState extends State<ReaderScreen> {
   var text = '';
-  
+
   Future pickImage() async {
-  
-    FirebaseVisionImage visionImage = FirebaseVisionImage.fromFilePath(widget.imageRoute);
+    FirebaseVisionImage visionImage =
+        FirebaseVisionImage.fromFilePath(widget.imageRoute);
     TextRecognizer textRecognizer = FirebaseVision.instance.textRecognizer();
     VisionText visionText = await textRecognizer.processImage(visionImage);
 
@@ -37,9 +37,17 @@ class _ReaderScreenState extends State<ReaderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Read Document'),
-        backgroundColor: Colors.lightBlue,
+      appBar: new AppBar(
+        title: Text(
+          'Read Document',
+          style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.lightBlue),
+        ),
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Colors.blue),
       ),
       body: Container(
         child: Column(
