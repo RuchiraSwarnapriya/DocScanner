@@ -40,77 +40,61 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: Text('Preview'),
-    //     backgroundColor: Colors.lightBlue,
-    //   ),
-    //   body: Container(
-    //     child: Column(
-    //       crossAxisAlignment: CrossAxisAlignment.stretch,
-    //       children: <Widget>[
-    //         Container(
-    //             margin: const EdgeInsets.all(40.0),
-    //             width: 300,
-    //             height: 300,
-    //             child: Image.file(File(widget.imageRoute), fit: BoxFit.cover)),
-    //         SizedBox(height: 10.0),
-    //         // Flexible(
-    //         //   flex: 1,
-    //         //   child: Container(
-    //         //     padding: EdgeInsets.all(60.0),
-    //         //     child: RaisedButton(
-    //         //       onPressed: () {
-    //         //         getBytesFromFile().then((bytes) {
-    //         //           Share.file('Share via:', basename(widget.imagePath),
-    //         //               bytes.buffer.asUint8List(), 'image/png');
-    //         //         });
-    //         //       },
-    //         //       child: Text('Share'),
-    //         //     ),
-    //         //   ),
-    //         // ),
-    //       ],
-    //     ),
-    //   ),
-    // );
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Container(
-              margin: const EdgeInsets.all(40.0),
-              width: 300,
-              height: 300,
-              child: Image.file(File(widget.imageRoute), fit: BoxFit.cover)),
-          SizedBox(height: 10.0),
-          Center(
-            child: FlatButton.icon(
-              icon: Icon(
-                Icons.photo_camera,
-                size: 100,
-              ),
-              label: Text(''),
-              textColor: Theme.of(context).primaryColor,
-              onPressed: () async {
-                pickImage();
-              },
+      appBar: AppBar(
+        title: Text('Preview'),
+        backgroundColor: Colors.lightBlue,
+      ),
+      body: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Flexible(
+              child: Container(
+                  margin: const EdgeInsets.only(
+                      top: 20.0, left: 40.0, right: 40.0, bottom: 20.0),
+                  child:
+                      Image.file(File(widget.imageRoute), fit: BoxFit.cover)),
             ),
-          ),
-          SizedBox(height: 10.0),
-          SizedBox(height: 10.0),
-          text == ''
-              ? Text('Text will display here')
-              : Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text(
-                        text,
+            Center(
+              child: FlatButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(color: Colors.lightBlue)),
+                color: Colors.lightBlue,
+                textColor: Colors.white,
+                padding: EdgeInsets.all(8.0),
+                onPressed: () async {
+                  pickImage();
+                },
+                child: Text(
+                  "Read".toUpperCase(),
+                  style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: text == ''
+                  ? Text('Text will display here')
+                  : Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: SelectableText(
+                            text,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-        ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
       ),
     );
   }

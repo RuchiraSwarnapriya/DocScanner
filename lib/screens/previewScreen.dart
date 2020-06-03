@@ -37,42 +37,62 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
           Positioned(
             bottom: 1,
             left: 50,
-            child: IconButton(
-                icon: Icon(Icons.chrome_reader_mode),
-                iconSize: 25,
-                color: Colors.blue,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ReaderScreen(imageRoute: widget.imageRoute),
-                      ));
-                }),
-          ),
-          Positioned(
-            bottom: 1,
-            left: 100,
-            right: 100,
-            child: IconButton(
-                icon: Icon(Icons.save_alt),
-                iconSize: 25,
-                color: Colors.blue,
-                onPressed: () {}),
+            child: FlatButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ReaderScreen(imageRoute: widget.imageRoute),
+                    ));
+              },
+              padding: EdgeInsets.all(5.0),
+              child: Column(
+                children: <Widget>[
+                  Icon(
+                    Icons.chrome_reader_mode,
+                    color: Colors.blue,
+                    size: 25,
+                  ),
+                  Text(
+                    "Read",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.lightBlue,
+                        fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
           ),
           Positioned(
             bottom: 1,
             right: 50,
-            child: IconButton(
-                icon: Icon(Icons.share),
-                iconSize: 25,
-                color: Colors.blue,
-                onPressed: () {
-                  getBytesFromFile().then((bytes) {
-                      Share.file('Share via:', basename(widget.pdfPath),
-                          bytes.buffer.asUint8List(), 'image/png');
-                    });
-                }),
+            child: FlatButton(
+              onPressed: () {
+                getBytesFromFile().then((bytes) {
+                  Share.file('Share via:', basename(widget.pdfPath),
+                      bytes.buffer.asUint8List(), 'image/png');
+                });
+              },
+              padding: EdgeInsets.all(5.0),
+              child: Column(
+                children: <Widget>[
+                  Icon(
+                    Icons.share,
+                    color: Colors.blue,
+                    size: 25,
+                  ),
+                  Text(
+                    "Share",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.lightBlue,
+                        fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
