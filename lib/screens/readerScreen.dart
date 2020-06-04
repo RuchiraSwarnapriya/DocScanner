@@ -39,7 +39,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
     return Scaffold(
       appBar: new AppBar(
         title: Text(
-          'Read Document',
+          'Read Pdf',
           style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
