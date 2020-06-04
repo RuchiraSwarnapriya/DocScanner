@@ -93,11 +93,15 @@ class _ReaderScreenState extends State<ReaderScreen> {
               child: text == ''
                   ? Text('Text will display here')
                   : Expanded(
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: SelectableText(
-                            text,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black45)),
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: SelectableText(
+                              text,
+                            ),
                           ),
                         ),
                       ),
