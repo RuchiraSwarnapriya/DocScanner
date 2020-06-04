@@ -24,7 +24,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
       backgroundColor: Colors.grey[98],
       appBar: new AppBar(
         title: Text(
-          'Preview',
+          'PDF Preview',
           style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -64,7 +64,7 @@ class _PreviewImageScreenState extends State<PreviewImageScreen> {
                     size: 25,
                   ),
                   Text(
-                    "Read",
+                    "Read Pdf",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.lightBlue,
