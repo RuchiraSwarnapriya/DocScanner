@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:edge_detection/edge_detection.dart';
 
 import 'package:image_to_pdf/screens/previewScreen.dart';
 
@@ -128,10 +129,12 @@ class _CameraScreenState extends State {
 
   void _onCapturePressed(context) async {
     try {
-      final imgPath = join(
-        (await getTemporaryDirectory()).path,
-        '${DateTime.now()}.png',
-      );
+      // final imgPath = join(
+      //   (await getTemporaryDirectory()).path,
+      //   '${DateTime.now()}.png',
+      // );
+      final imgPath = await EdgeDetection.detectEdge;
+
       print(imgPath);
       await controller.takePicture(imgPath);
 
