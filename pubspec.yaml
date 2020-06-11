@@ -19,14 +19,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  camera:
+  camera: ^0.5.8+2
   path_provider:
   path:
-  video_player: 
   esys_flutter_share: ^1.0.2
   pdf: ^1.8.1
-  printing: ^3.4.0
-  flutter_full_pdf_viewer: ^1.0.6
   pdf_viewer_plugin: ^1.0.0+2
   firebase_ml_vision: ^0.9.4
   image_picker: ^0.6.7
