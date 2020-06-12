@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 
-import 'package:image_to_pdf/screens/cameraScreen.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:image_to_pdf/screens/previewScreen.dart';
+import 'package:edge_detection/edge_detection.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -36,10 +42,7 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(Icons.camera_alt),
                 color: Colors.white,
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CameraScreen()),
-                  );
+                  _onCapturePressed(context);
                 },
               ),
             ),
@@ -47,5 +50,46 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  void _onCapturePressed(context) async {
+    try {
+      final imgPath = await EdgeDetection.detectEdge;
+
+      final pw.Document pdf = new pw.Document();
+
+      final image =
+          PdfImage.file(pdf.document, bytes: File(imgPath).readAsBytesSync());
+      pdf.addPage(
+        pw.Page(
+          build: (pw.Context context) {
+            return pw.Container(
+              decoration: pw.BoxDecoration(color: PdfColor.fromHex('#ADD8E6')),
+              padding: pw.EdgeInsets.all(10),
+              child: pw.Center(
+                child: pw.Image(image, fit: pw.BoxFit.fill),
+              ),
+            );
+          },
+        ),
+      );
+
+      final pdfPath = join(
+        (await getTemporaryDirectory()).path,
+        '${DateTime.now()}.pdf',
+      );
+      final pdfFile = File(pdfPath);
+      await pdfFile.writeAsBytes(pdf.save());
+      print(pdfPath);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PreviewImageScreen(pdfPath, imgPath),
+        ),
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 }

@@ -1,183 +1,182 @@
-import 'dart:io';
+// import 'dart:io';
 
-import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:edge_detection/edge_detection.dart';
+// import 'package:camera/camera.dart';
+// import 'package:flutter/material.dart';
+// import 'package:path/path.dart';
+// import 'package:path_provider/path_provider.dart';
+// import 'package:pdf/pdf.dart';
+// import 'package:pdf/widgets.dart' as pw;
 
-import 'package:image_to_pdf/screens/previewScreen.dart';
 
-class CameraScreen extends StatefulWidget {
-  @override
-  _CameraScreenState createState() {
-    return _CameraScreenState();
-  }
-}
+// import 'package:image_to_pdf/screens/previewScreen.dart';
 
-class _CameraScreenState extends State {
-  CameraController controller;
+// class CameraScreen extends StatefulWidget {
+//   @override
+//   _CameraScreenState createState() {
+//     return _CameraScreenState();
+//   }
+// }
 
-  @override
-  void initState() {
-    List cameras;
-    int selectedCameraIdx;
+// class _CameraScreenState extends State {
+//   CameraController controller;
 
-    super.initState();
-    availableCameras().then((availableCameras) {
-      cameras = availableCameras;
+//   @override
+//   void initState() {
+//     List cameras;
+//     int selectedCameraIdx;
 
-      if (cameras.length > 0) {
-        setState(() {
-          selectedCameraIdx = 0;
-        });
+//     super.initState();
+//     availableCameras().then((availableCameras) {
+//       cameras = availableCameras;
 
-        _initCameraController(cameras[selectedCameraIdx]).then((void v) {});
-      } else {
-        print("No camera available");
-      }
-    }).catchError((err) {
-      print('Error: $err.code\nError Message: $err.message');
-    });
-  }
+//       if (cameras.length > 0) {
+//         setState(() {
+//           selectedCameraIdx = 0;
+//         });
 
-  Future _initCameraController(CameraDescription cameraDescription) async {
-    if (controller != null) {
-      await controller.dispose();
-    }
+//         _initCameraController(cameras[selectedCameraIdx]).then((void v) {});
+//       } else {
+//         print("No camera available");
+//       }
+//     }).catchError((err) {
+//       print('Error: $err.code\nError Message: $err.message');
+//     });
+//   }
 
-    controller = CameraController(cameraDescription, ResolutionPreset.high);
+//   Future _initCameraController(CameraDescription cameraDescription) async {
+//     if (controller != null) {
+//       await controller.dispose();
+//     }
 
-    controller.addListener(
-      () {
-        if (mounted) {
-          setState(() {});
-        }
+//     controller = CameraController(cameraDescription, ResolutionPreset.high);
 
-        if (controller.value.hasError) {
-          print('Camera error ${controller.value.errorDescription}');
-        }
-      },
-    );
+//     controller.addListener(
+//       () {
+//         if (mounted) {
+//           setState(() {});
+//         }
 
-    try {
-      await controller.initialize();
-    } on CameraException catch (e) {
-      _showCameraException(e);
-    }
+//         if (controller.value.hasError) {
+//           print('Camera error ${controller.value.errorDescription}');
+//         }
+//       },
+//     );
 
-    if (mounted) {
-      setState(() {});
-    }
-  }
+//     try {
+//       await controller.initialize();
+//     } on CameraException catch (e) {
+//       _showCameraException(e);
+//     }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Positioned(
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: _cameraPreviewWidget(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 30,
-            left: 50,
-            right: 50,
-            child: IconButton(
-              icon: Icon(Icons.camera_alt),
-              iconSize: 40,
-              color: Colors.white,
-              onPressed: () {
-                _onCapturePressed(context);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+//     if (mounted) {
+//       setState(() {});
+//     }
+//   }
 
-  Widget _cameraPreviewWidget() {
-    if (controller == null || !controller.value.isInitialized) {
-      return const Text(
-        'Loading',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20.0,
-          fontWeight: FontWeight.w900,
-        ),
-      );
-    }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Stack(
+//         children: <Widget>[
+//           Positioned(
+//             child: SafeArea(
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.stretch,
+//                 children: <Widget>[
+//                   Expanded(
+//                     flex: 1,
+//                     child: _cameraPreviewWidget(),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//           Positioned(
+//             bottom: 30,
+//             left: 50,
+//             right: 50,
+//             child: IconButton(
+//               icon: Icon(Icons.camera_alt),
+//               iconSize: 40,
+//               color: Colors.white,
+//               onPressed: () {
+//                 _onCapturePressed(context);
+//               },
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
 
-    return AspectRatio(
-      aspectRatio: controller.value.aspectRatio,
-      child: CameraPreview(controller),
-    );
-  }
+//   Widget _cameraPreviewWidget() {
+//     if (controller == null || !controller.value.isInitialized) {
+//       return const Text(
+//         'Loading',
+//         style: TextStyle(
+//           color: Colors.white,
+//           fontSize: 20.0,
+//           fontWeight: FontWeight.w900,
+//         ),
+//       );
+//     }
 
-  void _onCapturePressed(context) async {
-    try {
-      // final imgPath = join(
-      //   (await getTemporaryDirectory()).path,
-      //   '${DateTime.now()}.png',
-      // );
-      final imgPath = await EdgeDetection.detectEdge;
+//     return AspectRatio(
+//       aspectRatio: controller.value.aspectRatio,
+//       child: CameraPreview(controller),
+//     );
+//   }
 
-      print(imgPath);
-      await controller.takePicture(imgPath);
+//   void _onCapturePressed(context) async {
+//     try {
+//       final imgPath = join(
+//         (await getTemporaryDirectory()).path,
+//         '${DateTime.now()}.png',
+//       );
+      
+//       print(imgPath);
+//       await controller.takePicture(imgPath);
 
-      final pw.Document pdf = new pw.Document();
+//       final pw.Document pdf = new pw.Document();
 
-      final image =
-          PdfImage.file(pdf.document, bytes: File(imgPath).readAsBytesSync());
-      pdf.addPage(
-        pw.Page(
-          build: (pw.Context context) {
-            return pw.Container(
-              decoration: pw.BoxDecoration(color: PdfColor.fromHex('#ADD8E6')),
-              padding: pw.EdgeInsets.all(10),
-              child: pw.Center(
-                child: pw.Image(image, fit: pw.BoxFit.fill),
-              ),
-            );
-          },
-        ),
-      );
+//       final image =
+//           PdfImage.file(pdf.document, bytes: File(imgPath).readAsBytesSync());
+//       pdf.addPage(
+//         pw.Page(
+//           build: (pw.Context context) {
+//             return pw.Container(
+//               decoration: pw.BoxDecoration(color: PdfColor.fromHex('#ADD8E6')),
+//               padding: pw.EdgeInsets.all(10),
+//               child: pw.Center(
+//                 child: pw.Image(image, fit: pw.BoxFit.fill),
+//               ),
+//             );
+//           },
+//         ),
+//       );
 
-      final pdfPath = join(
-        (await getTemporaryDirectory()).path,
-        '${DateTime.now()}.pdf',
-      );
-      final pdfFile = File(pdfPath);
-      await pdfFile.writeAsBytes(pdf.save());
-      print(pdfPath);
+//       final pdfPath = join(
+//         (await getTemporaryDirectory()).path,
+//         '${DateTime.now()}.pdf',
+//       );
+//       final pdfFile = File(pdfPath);
+//       await pdfFile.writeAsBytes(pdf.save());
+//       print(pdfPath);
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PreviewImageScreen(pdfPath, imgPath),
-        ),
-      );
-    } catch (e) {
-      print(e);
-    }
-  }
+//       Navigator.push(
+//         context,
+//         MaterialPageRoute(
+//           builder: (context) => PreviewImageScreen(pdfPath, imgPath),
+//         ),
+//       );
+//     } catch (e) {
+//       print(e);
+//     }
+//   }
 
-  void _showCameraException(CameraException e) {
-    String errorText = 'Error: ${e.code}\nError Message: ${e.description}';
-    print(errorText);
-    print('Error: ${e.code}\n${e.description}');
-  }
-}
+//   void _showCameraException(CameraException e) {
+//     String errorText = 'Error: ${e.code}\nError Message: ${e.description}';
+//     print(errorText);
+//     print('Error: ${e.code}\n${e.description}');
+//   }
+// }
