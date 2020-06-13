@@ -14,7 +14,7 @@ To Run this app
   - Build & Run the project
   
 Flutter version -  1.12.13
-Min SDK Version - 21
+
 
 
 
