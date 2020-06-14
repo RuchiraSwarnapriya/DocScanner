@@ -87,8 +87,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
           SizedBox(
             height: 10,
           ),
-          Center(
-            child: text == ''
+            text == ''
                 ? Text('Text will display here')
                 : Expanded(
                     child: SingleChildScrollView(
@@ -100,7 +99,6 @@ class _ReaderScreenState extends State<ReaderScreen> {
                       ),
                     ),
                   ),
-          ),
           SizedBox(
             height: 10,
           ),
