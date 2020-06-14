@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
               decoration: pw.BoxDecoration(color: PdfColor.fromHex('#ADD8E6')),
               padding: pw.EdgeInsets.all(10),
               child: pw.Center(
-                child: pw.Image(image, fit: pw.BoxFit.fill),
+                child: pw.Image(image, fit: pw.BoxFit.contain),
               ),
             );
           },
